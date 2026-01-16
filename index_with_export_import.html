@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#f5e6d3">
+    <title>My Vision 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+            background: linear-gradient(135deg, #f5e6d3 0%, #d4a574 100%);
+            min-height: 100vh;
+            padding: 20px;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        /* タッチテキスト入力は選択可能に */
+        input, textarea {
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: #5d4037;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #d4a574 0%, #8d6e63 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #d4a574;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #795548;
+            margin-top: 5px;
+        }
+
+        .category-section {
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            font-size: 1.5em;
+            color: #5d4037;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .category-title-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .add-goal-btn {
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #d4a574 0%, #8d6e63 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.7em;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: opacity 0.3s ease;
+        }
+
+        .add-goal-btn:hover {
+            opacity: 0.9;
+        }
+
+        .category-icon {
+            font-size: 1.5em;
+        }
+
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .goal-card {
+            background: #fafafa;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            position: relative;
+            border-left: 4px solid #d4a574;
+        }
+
+        .goal-card.completed {
+            opacity: 0.7;
+            border-left-color: #66bb6a;
+        }
+
+        .goal-card.completed .goal-title {
+            text-decoration: line-through;
+        }
+
+        .goal-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            background: #ffffff;
+        }
+
+        .goal-card:hover .goal-actions {
+            opacity: 1;
+        }
+
+        .goal-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .goal-checkbox {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            accent-color: #66bb6a;
+            flex-shrink: 0;
+        }
+
+        .goal-content {
+            flex: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .goal-actions {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .edit-goal-btn, .delete-goal-btn {
+            padding: 5px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .edit-goal-btn {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .edit-goal-btn:hover {
+            background: #bbdefb;
+        }
+
+        .delete-goal-btn {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .delete-goal-btn:hover {
+            background: #ffcdd2;
+        }
+
+        .goal-icon {
+            font-size: 1.8em;
+        }
+
+        .goal-title {
+            font-size: 1em;
+            color: #5d4037;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .goal-progress {
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: #795548;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #d4a574 0%, #8d6e63 100%);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* モーダル */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 700px;
+            width: 100%;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .modal-title {
+            font-size: 1.8em;
+            color: #5d4037;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .close-btn {
+            font-size: 2em;
+            color: #795548;
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .progress-section {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .progress-text {
+            font-size: 1.1em;
+            color: #5d4037;
+            font-weight: bold;
+        }
+
+        .subtask-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            color: #5d4037;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .subtask-input-area {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .subtask-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            outline: none;
+        }
+
+        .subtask-input:focus {
+            border-color: #d4a574;
+        }
+
+        .add-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #d4a574 0%, #8d6e63 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .add-btn:hover {
+            opacity: 0.9;
+        }
+
+        .subtask-list {
+            list-style: none;
+        }
+
+        .subtask-item {
+            background: #fafafa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            border-left: 3px solid #d4a574;
+            touch-action: none;
+        }
+
+        .subtask-item:hover {
+            background: #f0f0f0;
+        }
+
+        .subtask-item.completed {
+            opacity: 0.6;
+        }
+
+        .subtask-item.completed .subtask-text {
+            text-decoration: line-through;
+        }
+
+        .drag-handle {
+            cursor: grab;
+            font-size: 1.2em;
+            color: #999;
+            padding: 5px;
+            touch-action: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+
+        .subtask-item.dragging {
+            opacity: 0.5;
+            background: #e0e0e0;
+        }
+
+        .subtask-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #d4a574;
+        }
+
+        .subtask-text {
+            flex: 1;
+            color: #5d4037;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background 0.2s ease;
+        }
+
+        .subtask-text:hover {
+            background: #e8e8e8;
+        }
+
+        .delete-subtask-btn {
+            padding: 6px 12px;
+            background: #ffebee;
+            color: #c62828;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+
+        .delete-subtask-btn:hover {
+            background: #ffcdd2;
+        }
+
+        /* サブタスク詳細モーダル */
+        .subtask-detail-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .subtask-detail-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .subtask-detail-content {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .memo-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: inherit;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+
+        .memo-textarea:focus {
+            border-color: #d4a574;
+            outline: none;
+        }
+
+        .url-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+
+        .url-input:focus {
+            border-color: #d4a574;
+            outline: none;
+        }
+
+        .url-list {
+            margin-top: 15px;
+        }
+
+        .url-item {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .url-link {
+            flex: 1;
+            color: #1976d2;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .url-link:hover {
+            text-decoration: underline;
+        }
+
+        .delete-url-btn {
+            padding: 4px 10px;
+            background: #ffebee;
+            color: #c62828;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+
+        .save-memo-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .save-memo-btn:hover {
+            opacity: 0.9;
+        }
+
+        .saved-memo-display {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            white-space: pre-wrap;
+            color: #5d4037;
+            line-height: 1.6;
+            border-left: 3px solid #d4a574;
+        }
+
+        /* データ管理セクション */
+        .data-management-section {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .data-management-title {
+            font-size: 1.5em;
+            color: #5d4037;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .data-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .data-btn {
+            padding: 15px 30px;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            min-width: 180px;
+        }
+
+        .data-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+        }
+
+        .data-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%);
+        }
+
+        .import-btn {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+        }
+
+        .data-status-message {
+            margin-top: 15px;
+            font-size: 0.95em;
+            color: #5d4037;
+            min-height: 24px;
+        }
+
+        .data-status-message.success {
+            color: #43a047;
+            font-weight: bold;
+        }
+
+        .data-status-message.error {
+            color: #c62828;
+            font-weight: bold;
+        }
+
+        .hidden-file-input {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 20px 15px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .stats {
+                gap: 10px;
+            }
+
+            .stat-item {
+                min-width: 80px;
+            }
+
+            .stat-number {
+                font-size: 1.5em;
+            }
+
+            .stat-label {
+                font-size: 0.75em;
+            }
+
+            .category-section {
+                padding: 20px 15px;
+            }
+
+            .category-header {
+                font-size: 1.2em;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .category-title-area {
+                width: 100%;
+            }
+
+            .add-goal-btn {
+                width: 100%;
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+
+            .goals-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .goal-card {
+                padding: 15px;
+            }
+
+            .goal-icon {
+                font-size: 1.5em;
+            }
+
+            .goal-title {
+                font-size: 0.95em;
+            }
+
+            .goal-actions {
+                opacity: 1;
+                margin-top: 12px;
+            }
+
+            .edit-goal-btn, .delete-goal-btn {
+                flex: 1;
+                padding: 8px 15px;
+            }
+
+            .modal-content {
+                padding: 20px 15px;
+                margin: 10px;
+            }
+
+            .modal-title {
+                font-size: 1.3em;
+            }
+
+            .subtask-input-area {
+                flex-direction: column;
+            }
+
+            .add-btn {
+                width: 100%;
+            }
+
+            .subtask-item {
+                padding: 12px;
+            }
+
+            .subtask-detail-content {
+                padding: 20px 15px;
+                margin: 10px;
+            }
+
+            .drag-handle {
+                font-size: 1.5em;
+            }
+
+            /* タッチ操作のための余白追加 */
+            .subtask-checkbox {
+                width: 24px;
+                height: 24px;
+            }
+
+            .delete-subtask-btn {
+                padding: 8px 12px;
+            }
+
+            .data-management-section {
+                padding: 20px 15px;
+            }
+
+            .data-management-title {
+                font-size: 1.2em;
+            }
+
+            .data-buttons {
+                flex-direction: column;
+            }
+
+            .data-btn {
+                width: 100%;
+                padding: 12px 20px;
+                font-size: 1em;
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>My Vision 2026</h1>
+            <p>あなたの目標を実現しよう</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalGoals">0</div>
+                    <div class="stat-label">総目標数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="completedGoals">0</div>
+                    <div class="stat-label">完了目標数</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="categoriesContainer"></div>
+
+        <!-- データ管理セクション -->
+        <div class="data-management-section">
+            <h2 class="data-management-title">📊 データ管理</h2>
+            <div class="data-buttons">
+                <button class="data-btn save-btn" onclick="manualSave()">💾 データを保存</button>
+                <button class="data-btn export-btn" onclick="exportToMarkdown()">📤 エクスポート (.md)</button>
+                <button class="data-btn import-btn" onclick="document.getElementById('importFileInput').click()">📥 インポート (.md)</button>
+            </div>
+            <input type="file" id="importFileInput" class="hidden-file-input" accept=".md,.markdown,text/markdown" onchange="importFromMarkdown(event)">
+            <div class="data-status-message" id="dataStatusMessage"></div>
+        </div>
+    </div>
+
+    <!-- 目標詳細モーダル -->
+    <div class="modal" id="goalModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="goalModalTitle"></h2>
+                <button class="close-btn" onclick="closeGoalModal()">×</button>
+            </div>
+
+            <div class="progress-section">
+                <div class="progress-stats">
+                    <span class="progress-text" id="progressText">進捗: 0%</span>
+                    <span id="progressCount">0 / 0 完了</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="subtask-section">
+                <h3 class="section-title">📋 サブタスク</h3>
+                <div class="subtask-input-area">
+                    <input type="text" class="subtask-input" id="subtaskInput" placeholder="サブタスクを入力...">
+                    <button class="add-btn" onclick="addSubtask()">追加</button>
+                </div>
+                <ul class="subtask-list" id="subtaskList"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- サブタスク詳細モーダル -->
+    <div class="subtask-detail-modal" id="subtaskDetailModal">
+        <div class="subtask-detail-content">
+            <!-- Dynamic content will be inserted here -->
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ 重要：このストレージキーは絶対に変更しないこと！
+        // 変更するとユーザーのすべてのデータが消えます。
+        // 詳細: STORAGE_KEY_SPECIFICATION.md を参照
+        const STORAGE_KEY = 'vision2026_v2_data';  // ← 不変（PERMANENT）
+        const DATA_VERSION = '2.0';
+        
+        const goalsData = {
+            'travel': {
+                title: '旅行・体験',
+                icon: '✈️',
+                goals: [
+                    { id: 'travel1', icon: '⛴️', title: 'フェリー&バイク旅行（2泊3日）' },
+                    { id: 'travel2', icon: '🏰', title: 'ディズニーランドホテルに泊まる' },
+                    { id: 'travel3', icon: '🍕', title: 'ナポリにピザを食べに行く' },
+                    { id: 'travel4', icon: '🇹🇼', title: '台湾でグルメ三昧' },
+                    { id: 'travel5', icon: '🌅', title: 'ウユニ塩湖に行く' }
+                ]
+            },
+            'hobby': {
+                title: '趣味・学習',
+                icon: '🎨',
+                goals: [
+                    { id: 'hobby1', icon: '🧵', title: '刺繍でカスタマイズ' },
+                    { id: 'hobby2', icon: '🍨', title: 'パフェ佐藤のパフェを作る' },
+                    { id: 'hobby3', icon: '🍔', title: 'グルメハンバーガーを作る' },
+                    { id: 'hobby4', icon: '✍️', title: '書道で自分を表現できる' },
+                    { id: 'hobby5', icon: '🎣', title: 'キス釣りで20匹、25cm' },
+                    { id: 'hobby6', icon: '⛵', title: 'ボート釣りでヒラメ' },
+                    { id: 'hobby7', icon: '🗣️', title: '海外旅行で普通に英会話' },
+                    { id: 'hobby8', icon: '📜', title: '中小企業診断士の資格を取る' }
+                ]
+            },
+            'relationship': {
+                title: '人間関係',
+                icon: '❤️',
+                goals: [
+                    { id: 'rel1', icon: '😊', title: '自分も周りも笑顔で過ごせる' },
+                    { id: 'rel2', icon: '💑', title: '真理子さんに「一緒でよかった」と思ってもらえる' },
+                    { id: 'rel3', icon: '👧', title: 'すみれさんに「自分らしさを発見できた」と思ってもらえる' },
+                    { id: 'rel4', icon: '👨‍👩‍👦', title: 'お父さん、お母さんと旅行に行く' },
+                    { id: 'rel5', icon: '👴👵', title: '和夫さん、トシ子さんと旅行行く' },
+                    { id: 'rel6', icon: '🍽️', title: 'のぶくん、お姉ちゃんを招いて食事' }
+                ]
+            },
+            'health': {
+                title: '健康・美容',
+                icon: '💪',
+                goals: [
+                    { id: 'health1', icon: '⚖️', title: '68kgキープ' },
+                    { id: 'health2', icon: '💪', title: '6パック' },
+                    { id: 'health3', icon: '👀', title: '目の下にクマがない' }
+                ]
+            },
+            'career': {
+                title: '仕事・キャリア',
+                icon: '💼',
+                goals: [
+                    { id: 'career1', icon: '🤖', title: '生成AIで情報整理革新' },
+                    { id: 'career2', icon: '📊', title: '自分の営業スタイルの確立' },
+                    { id: 'career3', icon: '🤝', title: 'お客さまからお客さまを紹介される' },
+                    { id: 'career4', icon: '🎯', title: '会社、仲間を成功に導く' }
+                ]
+            },
+            'money': {
+                title: '暮らし・お金',
+                icon: '💰',
+                goals: [
+                    { id: 'money1', icon: '💭', title: '大事にする価値観を明らかにする' },
+                    { id: 'money2', icon: '💵', title: '投資戦略を作り、55歳で5,000万円、63歳で1億円' },
+                    { id: 'money3', icon: '📋', title: '死んだ時の連絡先の可視化' }
+                ]
+            }
+        };
+
+        let appData = loadData();
+        let currentGoal = null;
+        let currentSubtaskIndex = null;
+
+        function loadData() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    console.log('✅ データを正常にロードしました:', Object.keys(data).length, '個の目標');
+                    return data;
+                } else {
+                    console.log('ℹ️ 初回起動: 新しいデータを初期化');
+                    return {};
+                }
+            } catch (error) {
+                console.error('❌ データのロードに失敗:', error);
+                return {};
+            }
+        }
+
+        function saveData() {
+            try {
+                const dataString = JSON.stringify(appData);
+                const dataSizeKB = (new Blob([dataString]).size / 1024).toFixed(2);
+                
+                if (dataString.length > 5 * 1024 * 1024) {
+                    console.error('❌ データサイズが大きすぎます:', dataSizeKB, 'KB');
+                    alert('データサイズが大きすぎるため保存できません。一部のデータを削除してください。');
+                    return false;
+                }
+                
+                localStorage.setItem(STORAGE_KEY, dataString);
+                
+                const verification = localStorage.getItem(STORAGE_KEY);
+                if (verification === dataString) {
+                    console.log('✅ データを正常に保存しました:', dataSizeKB, 'KB,', Object.keys(appData).length, '個の目標');
+                    return true;
+                } else {
+                    console.error('❌ 保存の検証に失敗しました');
+                    alert('データの保存に失敗しました。再度お試しください。');
+                    return false;
+                }
+            } catch (error) {
+                console.error('❌ データの保存に失敗:', error);
+                if (error.name === 'QuotaExceededError') {
+                    alert('ストレージの容量が不足しています。一部のデータを削除してください。');
+                } else {
+                    alert('データの保存中にエラーが発生しました: ' + error.message);
+                }
+                return false;
+            }
+        }
+
+        function manualSave() {
+            const statusElement = document.getElementById('dataStatusMessage');
+            statusElement.textContent = '保存中...';
+            statusElement.className = 'data-status-message';
+            
+            setTimeout(() => {
+                const success = saveData();
+                
+                if (success) {
+                    statusElement.textContent = '✅ データを保存しました！';
+                    statusElement.className = 'data-status-message success';
+                } else {
+                    statusElement.textContent = '❌ 保存に失敗しました。もう一度お試しください。';
+                    statusElement.className = 'data-status-message error';
+                }
+                
+                setTimeout(() => {
+                    statusElement.textContent = '';
+                    statusElement.className = 'data-status-message';
+                }, 3000);
+            }, 300);
+        }
+
+        function exportToMarkdown() {
+            try {
+                let markdown = `# My Vision 2026 - データエクスポート\n\n`;
+                markdown += `**エクスポート日時**: ${new Date().toLocaleString('ja-JP')}\n`;
+                markdown += `**データバージョン**: ${DATA_VERSION}\n\n`;
+                markdown += `---\n\n`;
+                
+                // カテゴリごとにエクスポート
+                Object.keys(goalsData).forEach(catKey => {
+                    const category = goalsData[catKey];
+                    markdown += `## ${category.icon} ${category.title}\n\n`;
+                    
+                    category.goals.forEach(goal => {
+                        const data = appData[goal.id];
+                        if (!data) return;
+                        
+                        const completedMark = data.completed ? 'x' : ' ';
+                        markdown += `### ${goal.icon} ${goal.title}\n\n`;
+                        markdown += `- [${completedMark}] **完了**: ${data.completed ? 'はい' : 'いいえ'}\n`;
+                        markdown += `- **目標ID**: \`${goal.id}\`\n`;
+                        
+                        if (data.subtasks && data.subtasks.length > 0) {
+                            const completedCount = data.subtasks.filter(st => st.completed).length;
+                            markdown += `- **進捗**: ${completedCount} / ${data.subtasks.length} サブタスク完了\n\n`;
+                            
+                            markdown += `#### 📋 サブタスク\n\n`;
+                            data.subtasks.forEach((subtask, index) => {
+                                const mark = subtask.completed ? 'x' : ' ';
+                                markdown += `${index + 1}. [${mark}] ${subtask.text}\n`;
+                                
+                                if (subtask.memo && subtask.memo.trim()) {
+                                    markdown += `   - **メモ**: ${subtask.memo.replace(/\n/g, '\n     ')}\n`;
+                                }
+                                
+                                if (subtask.urls && subtask.urls.length > 0) {
+                                    markdown += `   - **リンク**:\n`;
+                                    subtask.urls.forEach(url => {
+                                        markdown += `     - ${url}\n`;
+                                    });
+                                }
+                                markdown += `\n`;
+                            });
+                        } else {
+                            markdown += `\n*サブタスクはまだ追加されていません*\n\n`;
+                        }
+                        
+                        markdown += `---\n\n`;
+                    });
+                });
+                
+                // ダウンロード
+                const blob = new Blob([markdown], { type: 'text/markdown;charset=utf-8;' });
+                const link = document.createElement('a');
+                const fileName = `my-vision-2026_${new Date().toISOString().split('T')[0]}.md`;
+                link.href = URL.createObjectURL(blob);
+                link.download = fileName;
+                link.click();
+                URL.revokeObjectURL(link.href);
+                
+                const statusElement = document.getElementById('dataStatusMessage');
+                statusElement.textContent = `✅ エクスポート完了: ${fileName}`;
+                statusElement.className = 'data-status-message success';
+                
+                setTimeout(() => {
+                    statusElement.textContent = '';
+                    statusElement.className = 'data-status-message';
+                }, 5000);
+                
+                console.log('✅ マークダウンエクスポート成功');
+            } catch (error) {
+                console.error('❌ エクスポートエラー:', error);
+                const statusElement = document.getElementById('dataStatusMessage');
+                statusElement.textContent = '❌ エクスポートに失敗しました';
+                statusElement.className = 'data-status-message error';
+            }
+        }
+
+        function importFromMarkdown(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const content = e.target.result;
+                    const lines = content.split('\n');
+                    
+                    let currentGoalId = null;
+                    let currentSubtasks = [];
+                    let currentSubtask = null;
+                    const importedData = {};
+                    
+                    for (let i = 0; i < lines.length; i++) {
+                        const line = lines[i].trim();
+                        
+                        // 目標IDの検出
+                        const goalIdMatch = line.match(/\*\*目標ID\*\*:\s*`([^`]+)`/);
+                        if (goalIdMatch) {
+                            if (currentGoalId && currentSubtasks.length > 0) {
+                                if (!importedData[currentGoalId]) {
+                                    importedData[currentGoalId] = { subtasks: [], completed: false };
+                                }
+                                importedData[currentGoalId].subtasks = currentSubtasks;
+                            }
+                            
+                            currentGoalId = goalIdMatch[1];
+                            currentSubtasks = [];
+                            currentSubtask = null;
+                            
+                            // 完了状態の検出
+                            const completedMatch = lines[i-2]?.match(/\[([x ])\]/);
+                            if (completedMatch) {
+                                if (!importedData[currentGoalId]) {
+                                    importedData[currentGoalId] = { subtasks: [], completed: false };
+                                }
+                                importedData[currentGoalId].completed = completedMatch[1] === 'x';
+                            }
+                        }
+                        
+                        // サブタスクの検出
+                        const subtaskMatch = line.match(/^\d+\.\s*\[([x ])\]\s*(.+)$/);
+                        if (subtaskMatch && currentGoalId) {
+                            if (currentSubtask) {
+                                currentSubtasks.push(currentSubtask);
+                            }
+                            
+                            currentSubtask = {
+                                text: subtaskMatch[2],
+                                completed: subtaskMatch[1] === 'x',
+                                memo: '',
+                                urls: []
+                            };
+                        }
+                        
+                        // メモの検出
+                        const memoMatch = line.match(/\*\*メモ\*\*:\s*(.+)$/);
+                        if (memoMatch && currentSubtask) {
+                            currentSubtask.memo = memoMatch[1];
+                        }
+                        
+                        // URLの検出
+                        const urlMatch = line.match(/^\s*-\s+(https?:\/\/.+)$/);
+                        if (urlMatch && currentSubtask && lines[i-1]?.includes('**リンク**')) {
+                            currentSubtask.urls.push(urlMatch[1]);
+                        }
+                    }
+                    
+                    // 最後のデータを保存
+                    if (currentGoalId && currentSubtask) {
+                        currentSubtasks.push(currentSubtask);
+                    }
+                    if (currentGoalId && currentSubtasks.length > 0) {
+                        if (!importedData[currentGoalId]) {
+                            importedData[currentGoalId] = { subtasks: [], completed: false };
+                        }
+                        importedData[currentGoalId].subtasks = currentSubtasks;
+                    }
+                    
+                    // データをマージ
+                    if (Object.keys(importedData).length > 0) {
+                        const confirmMsg = `${Object.keys(importedData).length}個の目標データを読み込みました。\n現在のデータに上書きしますか？`;
+                        if (confirm(confirmMsg)) {
+                            Object.keys(importedData).forEach(goalId => {
+                                appData[goalId] = importedData[goalId];
+                            });
+                            
+                            saveData();
+                            renderCategories();
+                            
+                            const statusElement = document.getElementById('dataStatusMessage');
+                            statusElement.textContent = `✅ インポート成功: ${Object.keys(importedData).length}個の目標`;
+                            statusElement.className = 'data-status-message success';
+                            
+                            setTimeout(() => {
+                                statusElement.textContent = '';
+                                statusElement.className = 'data-status-message';
+                            }, 5000);
+                            
+                            console.log('✅ インポート成功:', Object.keys(importedData).length, '個の目標');
+                        }
+                    } else {
+                        throw new Error('有効なデータが見つかりませんでした');
+                    }
+                    
+                } catch (error) {
+                    console.error('❌ インポートエラー:', error);
+                    const statusElement = document.getElementById('dataStatusMessage');
+                    statusElement.textContent = '❌ インポートに失敗しました。ファイル形式を確認してください。';
+                    statusElement.className = 'data-status-message error';
+                }
+                
+                // ファイル入力をリセット
+                event.target.value = '';
+            };
+            
+            reader.readAsText(file, 'UTF-8');
+        }
+
+        function renderCategories() {
+            const container = document.getElementById('categoriesContainer');
+            container.innerHTML = '';
+
+            Object.keys(goalsData).forEach(catKey => {
+                const category = goalsData[catKey];
+                
+                const section = document.createElement('div');
+                section.className = 'category-section';
+                
+                const header = document.createElement('div');
+                header.className = 'category-header';
+                header.innerHTML = `
+                    <div class="category-title-area">
+                        <span class="category-icon">${category.icon}</span>
+                        <span>${category.title}</span>
+                    </div>
+                    <button class="add-goal-btn" onclick="addGoal('${catKey}')">＋ 目標を追加</button>
+                `;
+                
+                const grid = document.createElement('div');
+                grid.className = 'goals-grid';
+                
+                category.goals.forEach(goal => {
+                    if (!appData[goal.id]) {
+                        appData[goal.id] = { subtasks: [], completed: false };
+                    }
+                    const data = appData[goal.id];
+                    const totalSubtasks = data.subtasks.length;
+                    const completedSubtasks = data.subtasks.filter(st => st.completed).length;
+                    const progress = totalSubtasks > 0 ? Math.round((completedSubtasks / totalSubtasks) * 100) : 0;
+                    
+                    const card = document.createElement('div');
+                    card.className = `goal-card ${data.completed ? 'completed' : ''}`;
+                    card.innerHTML = `
+                        <div class="goal-header">
+                            <input type="checkbox" class="goal-checkbox" ${data.completed ? 'checked' : ''} 
+                                   onclick="toggleGoalComplete('${goal.id}')">
+                            <div class="goal-content" onclick="openGoalModal('${goal.id}')">
+                                <span class="goal-icon">${goal.icon}</span>
+                                <span class="goal-title">${goal.title}</span>
+                            </div>
+                        </div>
+                        <div class="goal-progress">
+                            ${completedSubtasks} / ${totalSubtasks} サブタスク完了
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${progress}%"></div>
+                            </div>
+                        </div>
+                        <div class="goal-actions">
+                            <button class="edit-goal-btn" onclick="event.stopPropagation(); editGoal('${catKey}', '${goal.id}')">編集</button>
+                            <button class="delete-goal-btn" onclick="event.stopPropagation(); deleteGoal('${catKey}', '${goal.id}')">削除</button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+                
+                section.appendChild(header);
+                section.appendChild(grid);
+                container.appendChild(section);
+            });
+            
+            updateStats();
+        }
+
+        function openGoalModal(goalId) {
+            let foundGoal = null;
+            Object.values(goalsData).forEach(cat => {
+                const goal = cat.goals.find(g => g.id === goalId);
+                if (goal) foundGoal = goal;
+            });
+            
+            if (!foundGoal) return;
+            
+            currentGoal = foundGoal;
+            document.getElementById('goalModalTitle').innerHTML = `${foundGoal.icon} ${foundGoal.title}`;
+            
+            if (!appData[foundGoal.id]) {
+                appData[foundGoal.id] = { subtasks: [] };
+            }
+            
+            renderSubtasks();
+            updateProgress();
+            document.getElementById('goalModal').classList.add('active');
+        }
+
+        function closeGoalModal() {
+            document.getElementById('goalModal').classList.remove('active');
+            currentGoal = null;
+            renderCategories();
+        }
+
+        function renderSubtasks() {
+            const list = document.getElementById('subtaskList');
+            list.innerHTML = '';
+            
+            const subtasks = appData[currentGoal.id].subtasks;
+            
+            subtasks.forEach((subtask, index) => {
+                const li = document.createElement('li');
+                li.className = `subtask-item ${subtask.completed ? 'completed' : ''}`;
+                li.draggable = true;
+                li.dataset.index = index;
+                
+                li.innerHTML = `
+                    <span class="drag-handle" data-index="${index}">⋮⋮</span>
+                    <input type="checkbox" class="subtask-checkbox" ${subtask.completed ? 'checked' : ''} data-index="${index}">
+                    <span class="subtask-text" data-index="${index}">${subtask.text}</span>
+                    <button class="delete-subtask-btn" data-index="${index}">削除</button>
+                `;
+                
+                list.appendChild(li);
+            });
+            
+            list.addEventListener('change', (e) => {
+                if (e.target.classList.contains('subtask-checkbox')) {
+                    const index = parseInt(e.target.dataset.index);
+                    toggleSubtask(index);
+                }
+            });
+            
+            list.addEventListener('click', (e) => {
+                if (e.target.classList.contains('subtask-text')) {
+                    const index = parseInt(e.target.dataset.index);
+                    openSubtaskDetail(index);
+                }
+                if (e.target.classList.contains('delete-subtask-btn')) {
+                    e.stopPropagation();
+                    const index = parseInt(e.target.dataset.index);
+                    deleteSubtask(index);
+                }
+            });
+            
+            const items = list.querySelectorAll('.subtask-item');
+            items.forEach(item => {
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragover', handleDragOver);
+                item.addEventListener('drop', handleDrop);
+                item.addEventListener('dragend', handleDragEnd);
+            });
+        }
+
+        function addSubtask() {
+            const input = document.getElementById('subtaskInput');
+            const text = input.value.trim();
+            
+            if (!text) return;
+            
+            appData[currentGoal.id].subtasks.push({
+                text: text,
+                completed: false,
+                memo: '',
+                urls: []
+            });
+            
+            saveData();
+            renderSubtasks();
+            updateProgress();
+            input.value = '';
+        }
+
+        function toggleSubtask(index) {
+            appData[currentGoal.id].subtasks[index].completed = 
+                !appData[currentGoal.id].subtasks[index].completed;
+            saveData();
+            renderSubtasks();
+            updateProgress();
+        }
+
+        function deleteSubtask(index) {
+            if (confirm('このサブタスクを削除しますか？')) {
+                appData[currentGoal.id].subtasks.splice(index, 1);
+                saveData();
+                renderSubtasks();
+                updateProgress();
+            }
+        }
+
+        function updateProgress() {
+            const subtasks = appData[currentGoal.id].subtasks;
+            const total = subtasks.length;
+            const completed = subtasks.filter(st => st.completed).length;
+            const progress = total > 0 ? Math.round((completed / total) * 100) : 0;
+            
+            document.getElementById('progressText').textContent = `進捗: ${progress}%`;
+            document.getElementById('progressCount').textContent = `${completed} / ${total} 完了`;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+        }
+
+        function openSubtaskDetail(index) {
+            currentSubtaskIndex = index;
+            const subtask = appData[currentGoal.id].subtasks[index];
+            
+            const modal = document.getElementById('subtaskDetailModal');
+            const content = modal.querySelector('.subtask-detail-content');
+            
+            content.innerHTML = '';
+            
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'modal-header';
+            headerDiv.innerHTML = `
+                <h3 class="modal-title">${subtask.text}</h3>
+                <button class="close-btn" onclick="closeSubtaskDetail()">×</button>
+            `;
+            content.appendChild(headerDiv);
+            
+            if (subtask.memo && subtask.memo.trim()) {
+                const savedMemoDiv = document.createElement('div');
+                savedMemoDiv.innerHTML = `
+                    <h4 style="margin-bottom: 10px; color: #5d4037;">📝 保存されたメモ</h4>
+                    <div class="saved-memo-display">${subtask.memo}</div>
+                `;
+                content.appendChild(savedMemoDiv);
+            }
+            
+            const memoDiv = document.createElement('div');
+            memoDiv.innerHTML = `
+                <h4 style="margin-bottom: 10px; color: #5d4037;">📝 ${subtask.memo ? 'メモを編集' : 'メモを追加'}</h4>
+                <textarea class="memo-textarea" id="memoTextarea" placeholder="メモを入力...">${subtask.memo || ''}</textarea>
+            `;
+            content.appendChild(memoDiv);
+            
+            const urlDiv = document.createElement('div');
+            urlDiv.innerHTML = `
+                <h4 style="margin-bottom: 10px; color: #5d4037;">🔗 リンク・URL</h4>
+                <input type="text" class="url-input" id="urlInput" placeholder="URLを入力...">
+                <button class="add-btn" id="addUrlBtn" style="width: 100%; margin-bottom: 15px;">URLを追加</button>
+                <div class="url-list" id="urlList"></div>
+            `;
+            content.appendChild(urlDiv);
+            
+            const saveBtn = document.createElement('button');
+            saveBtn.className = 'save-memo-btn';
+            saveBtn.textContent = '保存';
+            saveBtn.id = 'saveMemoBtn';
+            content.appendChild(saveBtn);
+            
+            content.querySelector('#addUrlBtn').addEventListener('click', addUrl);
+            content.querySelector('#saveMemoBtn').addEventListener('click', saveMemo);
+            
+            renderUrls();
+            
+            modal.classList.add('active');
+        }
+
+        function closeSubtaskDetail() {
+            document.getElementById('subtaskDetailModal').classList.remove('active');
+            currentSubtaskIndex = null;
+        }
+
+        function saveMemo() {
+            const memo = document.getElementById('memoTextarea').value;
+            appData[currentGoal.id].subtasks[currentSubtaskIndex].memo = memo;
+            const success = saveData();
+            if (success) {
+                alert('保存しました！');
+            }
+        }
+
+        function addUrl() {
+            const input = document.getElementById('urlInput');
+            const url = input.value.trim();
+            
+            if (!url) return;
+            
+            appData[currentGoal.id].subtasks[currentSubtaskIndex].urls.push(url);
+            saveData();
+            renderUrls();
+            input.value = '';
+        }
+
+        function renderUrls() {
+            const list = document.getElementById('urlList');
+            if (!list) return;
+            
+            list.innerHTML = '';
+            
+            const urls = appData[currentGoal.id].subtasks[currentSubtaskIndex].urls || [];
+            
+            urls.forEach((url, index) => {
+                const div = document.createElement('div');
+                div.className = 'url-item';
+                div.innerHTML = `
+                    <a href="${url}" target="_blank" class="url-link">${url}</a>
+                    <button class="delete-url-btn" data-url-index="${index}">削除</button>
+                `;
+                
+                div.querySelector('.delete-url-btn').addEventListener('click', () => {
+                    deleteUrl(index);
+                });
+                
+                list.appendChild(div);
+            });
+        }
+
+        function deleteUrl(index) {
+            appData[currentGoal.id].subtasks[currentSubtaskIndex].urls.splice(index, 1);
+            saveData();
+            renderUrls();
+        }
+
+        let draggedElement = null;
+
+        function handleDragStart(e) {
+            draggedElement = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.innerHTML);
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            
+            if (draggedElement !== this) {
+                const fromIndex = parseInt(draggedElement.dataset.index);
+                const toIndex = parseInt(this.dataset.index);
+                
+                const subtasks = appData[currentGoal.id].subtasks;
+                const [removed] = subtasks.splice(fromIndex, 1);
+                subtasks.splice(toIndex, 0, removed);
+                
+                saveData();
+                renderSubtasks();
+                updateProgress();
+            }
+            
+            return false;
+        }
+
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+            draggedElement = null;
+        }
+
+        function updateStats() {
+            let totalGoals = 0;
+            let completedGoals = 0;
+            
+            Object.values(goalsData).forEach(cat => {
+                totalGoals += cat.goals.length;
+                cat.goals.forEach(goal => {
+                    const data = appData[goal.id];
+                    if (data && data.completed) {
+                        completedGoals++;
+                    }
+                });
+            });
+            
+            document.getElementById('totalGoals').textContent = totalGoals;
+            document.getElementById('completedGoals').textContent = completedGoals;
+        }
+
+        function toggleGoalComplete(goalId) {
+            if (!appData[goalId]) {
+                appData[goalId] = { subtasks: [], completed: false };
+            }
+            appData[goalId].completed = !appData[goalId].completed;
+            saveData();
+            renderCategories();
+        }
+
+        function addGoal(categoryKey) {
+            const title = prompt('新しい目標のタイトルを入力してください:');
+            if (!title || !title.trim()) return;
+            
+            const icon = prompt('アイコンを入力してください (絵文字):', '⭐');
+            
+            const newId = categoryKey + '_custom_' + Date.now();
+            goalsData[categoryKey].goals.push({
+                id: newId,
+                icon: icon || '⭐',
+                title: title.trim(),
+                custom: true
+            });
+            
+            appData[newId] = { subtasks: [], completed: false };
+            saveData();
+            renderCategories();
+        }
+
+        function editGoal(categoryKey, goalId) {
+            const category = goalsData[categoryKey];
+            const goalIndex = category.goals.findIndex(g => g.id === goalId);
+            if (goalIndex === -1) return;
+            
+            const goal = category.goals[goalIndex];
+            
+            const newTitle = prompt('目標のタイトルを編集:', goal.title);
+            if (newTitle === null) return;
+            
+            const newIcon = prompt('アイコンを編集:', goal.icon);
+            
+            if (newTitle.trim()) {
+                goal.title = newTitle.trim();
+            }
+            if (newIcon) {
+                goal.icon = newIcon;
+            }
+            
+            saveData();
+            renderCategories();
+        }
+
+        function deleteGoal(categoryKey, goalId) {
+            if (!confirm('この目標と全てのサブタスクを削除しますか？')) return;
+            
+            const category = goalsData[categoryKey];
+            const goalIndex = category.goals.findIndex(g => g.id === goalId);
+            if (goalIndex === -1) return;
+            
+            category.goals.splice(goalIndex, 1);
+            delete appData[goalId];
+            
+            saveData();
+            renderCategories();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCategories();
+            
+            document.getElementById('subtaskInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') addSubtask();
+            });
+            
+            document.getElementById('goalModal').addEventListener('click', (e) => {
+                if (e.target.id === 'goalModal') closeGoalModal();
+            });
+            
+            document.getElementById('subtaskDetailModal').addEventListener('click', (e) => {
+                if (e.target.id === 'subtaskDetailModal') closeSubtaskDetail();
+            });
+        });
+    </script>
+</body>
+</html>
