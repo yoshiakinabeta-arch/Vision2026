@@ -875,75 +875,103 @@
         const STORAGE_KEY = 'vision2026_v2_data';
         const DATA_VERSION = '2.0';
         
-        const goalsData = {
-            'travel': {
-                title: '旅行・体験',
-                icon: '✈️',
-                goals: [
-                    { id: 'travel1', icon: '⛴️', title: 'フェリー&バイク旅行（2泊3日）' },
-                    { id: 'travel2', icon: '🏰', title: 'ディズニーランドホテルに泊まる' },
-                    { id: 'travel3', icon: '🍕', title: 'ナポリにピザを食べに行く' },
-                    { id: 'travel4', icon: '🇹🇼', title: '台湾でグルメ三昧' },
-                    { id: 'travel5', icon: '🌅', title: 'ウユニ塩湖に行く' }
-                ]
-            },
-            'hobby': {
-                title: '趣味・学習',
-                icon: '🎨',
-                goals: [
-                    { id: 'hobby1', icon: '🧵', title: '刺繍でカスタマイズ' },
-                    { id: 'hobby2', icon: '🍨', title: 'パフェ佐藤のパフェを作る' },
-                    { id: 'hobby3', icon: '🍔', title: 'グルメハンバーガーを作る' },
-                    { id: 'hobby4', icon: '✍️', title: '書道で自分を表現できる' },
-                    { id: 'hobby5', icon: '🎣', title: 'キス釣りで20匹、25cm' },
-                    { id: 'hobby6', icon: '⛵', title: 'ボート釣りでヒラメ' },
-                    { id: 'hobby7', icon: '🗣️', title: '海外旅行で普通に英会話' },
-                    { id: 'hobby8', icon: '📜', title: '中小企業診断士の資格を取る' }
-                ]
-            },
-            'relationship': {
-                title: '人間関係',
-                icon: '❤️',
-                goals: [
-                    { id: 'rel1', icon: '😊', title: '自分も周りも笑顔で過ごせる' },
-                    { id: 'rel2', icon: '💑', title: '真理子さんに「一緒でよかった」と思ってもらえる' },
-                    { id: 'rel3', icon: '👧', title: 'すみれさんに「自分らしさを発見できた」と思ってもらえる' },
-                    { id: 'rel4', icon: '👨‍👩‍👦', title: 'お父さん、お母さんと旅行に行く' },
-                    { id: 'rel5', icon: '👴👵', title: '和夫さん、トシ子さんと旅行行く' },
-                    { id: 'rel6', icon: '🍽️', title: 'のぶくん、お姉ちゃんを招いて食事' }
-                ]
-            },
-            'health': {
-                title: '健康・美容',
-                icon: '💪',
-                goals: [
-                    { id: 'health1', icon: '⚖️', title: '68kgキープ' },
-                    { id: 'health2', icon: '💪', title: '6パック' },
-                    { id: 'health3', icon: '👀', title: '目の下にクマがない' }
-                ]
-            },
-            'career': {
-                title: '仕事・キャリア',
-                icon: '💼',
-                goals: [
-                    { id: 'career1', icon: '🤖', title: '生成AIで情報整理革新' },
-                    { id: 'career2', icon: '📊', title: '自分の営業スタイルの確立' },
-                    { id: 'career3', icon: '🤝', title: 'お客さまからお客さまを紹介される' },
-                    { id: 'career4', icon: '🎯', title: '会社、仲間を成功に導く' }
-                ]
-            },
-            'money': {
-                title: '暮らし・お金',
-                icon: '💰',
-                goals: [
-                    { id: 'money1', icon: '💭', title: '大事にする価値観を明らかにする' },
-                    { id: 'money2', icon: '💵', title: '投資戦略を作り、55歳で5,000万円、63歳で1億円' },
-                    { id: 'money3', icon: '📋', title: '死んだ時の連絡先の可視化' }
-                ]
-            }
-        };
+        function getDefaultGoalsData() {
+            return {
+                'travel': {
+                    title: '旅行・体験',
+                    icon: '✈️',
+                    goals: [
+                        { id: 'travel1', icon: '⛴️', title: 'フェリー&バイク旅行（2泊3日）' },
+                        { id: 'travel2', icon: '🏰', title: 'ディズニーランドホテルに泊まる' },
+                        { id: 'travel3', icon: '🍕', title: 'ナポリにピザを食べに行く' },
+                        { id: 'travel4', icon: '🇹🇼', title: '台湾でグルメ三昧' },
+                        { id: 'travel5', icon: '🌅', title: 'ウユニ塩湖に行く' }
+                    ]
+                },
+                'hobby': {
+                    title: '趣味・学習',
+                    icon: '🎨',
+                    goals: [
+                        { id: 'hobby1', icon: '🧵', title: '刺繍でカスタマイズ' },
+                        { id: 'hobby2', icon: '🍨', title: 'パフェ佐藤のパフェを作る' },
+                        { id: 'hobby3', icon: '🍔', title: 'グルメハンバーガーを作る' },
+                        { id: 'hobby4', icon: '✍️', title: '書道で自分を表現できる' },
+                        { id: 'hobby5', icon: '🎣', title: 'キス釣りで20匹、25cm' },
+                        { id: 'hobby6', icon: '⛵', title: 'ボート釣りでヒラメ' },
+                        { id: 'hobby7', icon: '🗣️', title: '海外旅行で普通に英会話' },
+                        { id: 'hobby8', icon: '📜', title: '中小企業診断士の資格を取る' }
+                    ]
+                },
+                'relationship': {
+                    title: '人間関係',
+                    icon: '❤️',
+                    goals: [
+                        { id: 'rel1', icon: '😊', title: '自分も周りも笑顔で過ごせる' },
+                        { id: 'rel2', icon: '💑', title: '真理子さんに「一緒でよかった」と思ってもらえる' },
+                        { id: 'rel3', icon: '👧', title: 'すみれさんに「自分らしさを発見できた」と思ってもらえる' },
+                        { id: 'rel4', icon: '👨‍👩‍👦', title: 'お父さん、お母さんと旅行に行く' },
+                        { id: 'rel5', icon: '👴👵', title: '和夫さん、トシ子さんと旅行行く' },
+                        { id: 'rel6', icon: '🍽️', title: 'のぶくん、お姉ちゃんを招いて食事' }
+                    ]
+                },
+                'health': {
+                    title: '健康・美容',
+                    icon: '💪',
+                    goals: [
+                        { id: 'health1', icon: '⚖️', title: '68kgキープ' },
+                        { id: 'health2', icon: '💪', title: '6パック' },
+                        { id: 'health3', icon: '👀', title: '目の下にクマがない' }
+                    ]
+                },
+                'career': {
+                    title: '仕事・キャリア',
+                    icon: '💼',
+                    goals: [
+                        { id: 'career1', icon: '🤖', title: '生成AIで情報整理革新' },
+                        { id: 'career2', icon: '📊', title: '自分の営業スタイルの確立' },
+                        { id: 'career3', icon: '🤝', title: 'お客さまからお客さまを紹介される' },
+                        { id: 'career4', icon: '🎯', title: '会社、仲間を成功に導く' }
+                    ]
+                },
+                'money': {
+                    title: '暮らし・お金',
+                    icon: '💰',
+                    goals: [
+                        { id: 'money1', icon: '💭', title: '大事にする価値観を明らかにする' },
+                        { id: 'money2', icon: '💵', title: '投資戦略を作り、55歳で5,000万円、63歳で1億円' },
+                        { id: 'money3', icon: '📋', title: '死んだ時の連絡先の可視化' }
+                    ]
+                }
+            };
+        }
 
-        let appData = loadData();
+        function mergeGoalsData(defaultGoals, savedGoals) {
+            if (!savedGoals || typeof savedGoals !== 'object') {
+                return defaultGoals;
+            }
+
+            const merged = JSON.parse(JSON.stringify(defaultGoals));
+            Object.keys(savedGoals).forEach(categoryKey => {
+                if (!merged[categoryKey]) {
+                    merged[categoryKey] = savedGoals[categoryKey];
+                    return;
+                }
+
+                const savedCategory = savedGoals[categoryKey];
+                merged[categoryKey] = {
+                    title: savedCategory.title || merged[categoryKey].title,
+                    icon: savedCategory.icon || merged[categoryKey].icon,
+                    goals: Array.isArray(savedCategory.goals)
+                        ? savedCategory.goals
+                        : merged[categoryKey].goals
+                };
+            });
+
+            return merged;
+        }
+
+        let goalsData = getDefaultGoalsData();
+        let appData = {};
         let currentGoal = null;
         let currentSubtaskIndex = null;
 
@@ -951,22 +979,36 @@
             try {
                 const saved = localStorage.getItem(STORAGE_KEY);
                 if (saved) {
-                    const data = JSON.parse(saved);
-                    console.log('✅ データを正常にロードしました:', Object.keys(data).length, '個の目標');
-                    return data;
+                    const parsed = JSON.parse(saved);
+                    if (parsed && parsed.appData) {
+                        appData = parsed.appData;
+                        goalsData = mergeGoalsData(getDefaultGoalsData(), parsed.goalsData);
+                        console.log('✅ データを正常にロードしました:', Object.keys(appData).length, '個の目標');
+                    } else {
+                        appData = parsed;
+                        goalsData = getDefaultGoalsData();
+                        console.log('✅ データを正常にロードしました:', Object.keys(appData).length, '個の目標');
+                    }
                 } else {
                     console.log('ℹ️ 初回起動: 新しいデータを初期化');
-                    return {};
+                    appData = {};
+                    goalsData = getDefaultGoalsData();
                 }
             } catch (error) {
                 console.error('❌ データのロードに失敗:', error);
-                return {};
+                appData = {};
+                goalsData = getDefaultGoalsData();
             }
         }
 
         function saveData() {
             try {
-                const dataString = JSON.stringify(appData);
+                const payload = {
+                    version: DATA_VERSION,
+                    goalsData,
+                    appData
+                };
+                const dataString = JSON.stringify(payload);
                 const dataSizeKB = (new Blob([dataString]).size / 1024).toFixed(2);
                 
                 if (dataString.length > 5 * 1024 * 1024) {
@@ -1025,7 +1067,8 @@
                 const exportData = {
                     version: DATA_VERSION,
                     exportDate: new Date().toISOString(),
-                    data: appData
+                    goalsData,
+                    appData
                 };
                 
                 const jsonString = JSON.stringify(exportData, null, 2);
@@ -1066,11 +1109,12 @@
                     const importedData = JSON.parse(content);
                     
                     // データ形式の検証
-                    if (!importedData.data || typeof importedData.data !== 'object') {
+                    const dataToImport = importedData.appData || importedData.data;
+                    if (!dataToImport || typeof dataToImport !== 'object') {
                         throw new Error('無効なデータ形式です');
                     }
-                    
-                    const dataToImport = importedData.data;
+
+                    const goalsToImport = importedData.goalsData;
                     const goalCount = Object.keys(dataToImport).length;
                     
                     const confirmMsg = `${goalCount}個の目標データを読み込みました。\n現在のデータに上書きしますか？`;
@@ -1079,6 +1123,10 @@
                         Object.keys(dataToImport).forEach(goalId => {
                             appData[goalId] = dataToImport[goalId];
                         });
+
+                        if (goalsToImport) {
+                            goalsData = mergeGoalsData(getDefaultGoalsData(), goalsToImport);
+                        }
                         
                         saveData();
                         renderCategories();
@@ -1365,6 +1413,15 @@
         }
 
         function closeSubtaskDetail() {
+            const memoTextarea = document.getElementById('memoTextarea');
+            if (memoTextarea && currentGoal !== null && currentSubtaskIndex !== null) {
+                const currentMemo = appData[currentGoal.id].subtasks[currentSubtaskIndex].memo || '';
+                if (memoTextarea.value !== currentMemo) {
+                    appData[currentGoal.id].subtasks[currentSubtaskIndex].memo = memoTextarea.value;
+                    saveData();
+                    renderSubtasks();
+                }
+            }
             document.getElementById('subtaskDetailModal').classList.remove('active');
             currentSubtaskIndex = null;
         }
@@ -1374,7 +1431,7 @@
             appData[currentGoal.id].subtasks[currentSubtaskIndex].memo = memo;
             const success = saveData();
             if (success) {
-                alert('保存しました！');
+                closeSubtaskDetail();
             }
         }
 
@@ -1547,6 +1604,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            loadData();
             renderCategories();
             
             document.getElementById('subtaskInput').addEventListener('keypress', (e) => {
